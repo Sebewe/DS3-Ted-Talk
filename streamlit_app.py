@@ -35,11 +35,11 @@ def ovr_model_accuracy2_graph():
 
 
 st.set_page_config(
-    page_title="Text Classification",
-    page_icon=Image.open(GET_DIR('ds3.png'))
+    page_title="Text Classification Demo",
+    page_icon= Image.open(GET_DIR("ds3.png"))
 )
 
-log_tab, ovr_tab = st.tabs(['Linear SVC', 'OVR Logistic Regression'])
+ovr_tab, log_tab,  = st.tabs([':blue[OVR Logistic Regression]', ':blue[Linear SVC]'])
 with log_tab:
     @st.cache_data
     def test_classify_log(prediction_input):
@@ -54,14 +54,16 @@ with log_tab:
         # Linear SVC Model
         ### 76.1% Training Accuracy, 55.8% Test Accuracy
     """)
-    st.plotly_chart(log_model_accuracy_graph())
-    st.plotly_chart(log_model_accuracy2_graph())
-    prediction_input = st.text_area("Input the string you'd like us to classify:", key="log_prediction_input")
 
+    prediction_input = st.text_area("Input the string you'd like us to classify:", key="log_prediction_input")
+    
     _, _, _, middle, _, _, _ = st.columns(7)
-    if middle.button("classify", key="log_classify_button"):
+    if middle.button(":green[classify]", key="log_classify_button"):
         prediction = test_classify_log(prediction_input)
         st.markdown(f"The model predicted: **{prediction}**")
+
+    st.plotly_chart(log_model_accuracy_graph())
+    st.plotly_chart(log_model_accuracy2_graph())
 
 
 with ovr_tab:
@@ -78,11 +80,13 @@ with ovr_tab:
         # OneVsRest Classifier + Logistic Regression
         ### 78% Training Accuracy, 58.9% Test Accuracy
     """)
-    st.plotly_chart(ovr_model_accuracy_graph())
-    st.plotly_chart(ovr_model_accuracy2_graph())
+    
     prediction_input = st.text_area("Input the string you'd like us to classify:", key="ovr_prediction_input")
 
     _, _, _, middle, _, _, _ = st.columns(7)
-    if middle.button("classify", key="ovr_classify_button"):
+    if middle.button(":green[classify]", key="ovr_classify_button"):
         prediction = test_classify_ovr(prediction_input)
         st.markdown(f"The model predicted: **{prediction}**")
+    
+    st.plotly_chart(ovr_model_accuracy_graph())
+    st.plotly_chart(ovr_model_accuracy2_graph())
